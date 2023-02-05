@@ -1,4 +1,4 @@
-app = "mastodon-example-redis"
+app = "mastodon-mountainash-redis"
 
 [build]
   dockerfile = "Dockerfile.redis"
