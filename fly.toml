@@ -4,10 +4,11 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 
 ## Uncomment if you are upgrading Mastodon. See README.md for details.
-[deploy]
-  release_command = "bin/rails db:migrate"
+# [deploy]
+#   release_command = "bin/rails db:migrate"
 
 [env]
+  SINGLE_USER_MODE = "true"
   LOCAL_DOMAIN = "mastodon.mountainash.id.au"
   WEB_CONCURRENCY = "0" # exactly 1 Puma process
   OVERMIND_FORMATION = "sidekiq=1" # exactly 1 sidekiq process
