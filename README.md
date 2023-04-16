@@ -34,7 +34,7 @@ Choose a region that is close to your users. See [Fly regions](https://fly.io/do
 
 ```bash
 fly apps create mastodon-mountainash-redis
-bin/fly-redis volumes create --region sjc --size 1 mastodon_redis
+bin/fly-redis volumes create --regio fra --size 1 mastodon_redis
 bin/fly-redis deploy
 ```
 
@@ -47,7 +47,7 @@ Create that volume below, or remove the `[mounts]` section and uncomment `[env] 
 #### Option 1: Local volume
 
 ```bash
-fly volumes create --region sjc mastodon_uploads
+fly volumes create --regio fra mastodon_uploads
 ```
 
 #### Option 2: Cloud storage
@@ -65,7 +65,7 @@ To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [
 ### Postgres database
 
 ```bash
-fly pg create --region sjc --name mastodon-mountainash-db
+fly pg create --region fra --name mastodon-mountainash-db
 fly pg attach mastodon-mountainash-db
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
