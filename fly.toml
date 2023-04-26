@@ -16,7 +16,7 @@ kill_timeout = 5
   MAX_THREADS = "5"
   RAILS_ENV = "production"
   RAILS_LOG_TO_STDOUT = "enabled"
-  RAILS_SERVE_STATIC_FILES = "false"
+  RAILS_SERVE_STATIC_FILES = "true"
   REDIS_HOST = "mastodon-mountainash-redis.internal"
   REDIS_PORT = "6379"
   ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
