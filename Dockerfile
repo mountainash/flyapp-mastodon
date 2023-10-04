@@ -1,4 +1,3 @@
-# Releases: https://github.com/mastodon/mastodon/releases
 FROM tootsuite/mastodon:v4.2.0
 
 USER root
