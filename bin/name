@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [[ -n "$1" ]]; then
-  find . -exec sed -i '' -e "s/mastodon-mountainash/$1/g" {} \;
+  find . -name .git -prune -o -type f -exec sed -i '' -e "s/mastodon-example/$1/g" {} \;
+
 else
   echo "USAGE: bin/name APPNAME"
   exit 1
