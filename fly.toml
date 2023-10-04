@@ -20,6 +20,7 @@ kill_timeout = "5s"
   RAILS_SERVE_STATIC_FILES = "true"
   REDIS_HOST = "mastodon-mountainash-redis.internal"
   REDIS_PORT = "6379"
+  REDIS_URL = "redis://mastodon-mountainash-redis.internal:6379/?family=6"
   ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
   ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
   # S3_ENABLED=true
