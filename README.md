@@ -15,8 +15,7 @@ You'll need a [Fly.io](https://fly.io/) account, and the [Flyctl CLI](https://fl
 Fork this repo and clone a copy of it. Choose a name for your app that isn't already taken on https://fly.io/, and run the script `bin/name YOURNAME`. Follow this readme from inside your repo, after you have run the script, so that all of the steps will be updated for the name of your Fly.io app.
 
 ```bash
-fly apps create mastodon-mountainash
-fly scale memory 1024 # Rails + Sidekiq needs more than 512
+fly apps create mastodon-example
 ```
 
 ### Secrets
@@ -35,9 +34,8 @@ Redis is used to store the home/list feeds, along with the Sidekiq queue informa
 Choose a region that is close to your users. See [Fly regions](https://fly.io/docs/reference/regions/) for a list of regions or run `fly platform regions`. In this example, we'll use `sjc` (San Jose, CA).
 
 ```bash
-fly apps create mastodon-mountainash-redis
-bin/fly-redis volumes create --regio fra --size 1 mastodon_redis
-bin/fly-redis deploy
+fly apps create mastodon-example-redis
+fly redis create --region sjc --name mastodon_redis
 ```
 
 ### Storage (user uploaded photos and videos)
@@ -49,7 +47,7 @@ Create that volume below, or remove the `[mounts]` section and uncomment `[env] 
 #### Option 1: Local volume
 
 ```bash
-fly volumes create --regio fra mastodon_uploads
+fly volumes create --regio sjc mastodon_uploads
 ```
 
 #### Option 2: Cloud storage
@@ -67,8 +65,8 @@ To serve cloud-stored images directly from your domain, set `S3_ALIAS_HOST` in [
 ### Postgres database
 
 ```bash
-fly pg create --region fra --name mastodon-mountainash-db
-fly pg attach mastodon-mountainash-db
+fly pg create --region sjc --name mastodon-example-db
+fly pg attach mastodon-example-db
 fly deploy -c fly.setup.toml # run `rails db:schema:load`, may take 2-3 minutes
 ```
 
@@ -89,8 +87,8 @@ fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
     If your DNS host supports ALIAS records:
 
     ```bash
-    @   ALIAS mastodon-mountainash.fly.dev
-    www CNAME mastodon-mountainash.fly.dev
+    @   ALIAS mastodon-example.fly.dev
+    www CNAME mastodon-example.fly.dev
     ```
 
     If your DNS host only allows A records, use the IP. For example, if your IP was `3.3.3.3`:
@@ -111,6 +109,7 @@ fly secrets set SMTP_LOGIN=<public token> SMTP_PASSWORD=<secret token>
 
 ```bash
 fly deploy
+fly scale memory 1024 # Rails + Sidekiq needs more than 512
 ```
 
 ### Make yourself an instance admin
@@ -129,7 +128,7 @@ Enjoy your server.
 
 If you still haven't gotten enough, here are some notes on how to operate your instance after it's running.
 
-Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://mastodon-mountainash.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
+Useful resources for operating and debugging a running instance include `fly logs`, `fly scale show`, `fly ssh console`, the Metrics section of `fly dashboard`, and the Sidekiq dashboard at <https://mastodon-example.fly.dev/sidekiq> (you have to be logged in to Mastodon as an admin user to see it).
 
 If your instance is getting slow or falling over, you may find [Scaling Mastodon in the Face of an Exodus](https://nora.codes/post/scaling-mastodon-in-the-face-of-an-exodus/) helpful.
 
@@ -142,7 +141,7 @@ If there are migrations that need to be run, make sure that the release command 
 If there are migrations that must be run before deploying to avoid downtime, you can run the pre-deploy migrations using a second app. By scaling this app to a VM count of zero, it won't add to our bill, but it will let us run the pre-deploy migrations as a release command before the web processes get the new code.
 
 ```bash
-fly apps create mastodon-mountainash-predeploy
+fly apps create mastodon-example-predeploy
 bin/fly-predeploy secrets set OTP_SECRET=placeholder SECRET_KEY_BASE=placeholder
 bin/fly-predeploy secrets set $(fly ssh console -C env | grep DATABASE_URL)
 bin/fly-predeploy scale memory 1024
@@ -156,9 +155,9 @@ After that, just deploy the updated container as usual, and the post-deploy migr
 fly deploy
 ```
 
-You should also regularly update the Postgres and Redis instances.
+You should also regularly update the Postgres and Redis instances:
 
-- `flyctl image update -a mastodon-mountainash-db` to update Postgres
+- `flyctl image update -a mastodon-example-db` to update Postgres
 - `./bin/fly-redis deploy` to update Redis
 
 ### Scaling your instance
