@@ -3,7 +3,6 @@ name: CMS Deploy to Fly.io 🪁
 on:
   push:
     branches:
-      - main
       - mastodon-mountainash
 
   workflow_dispatch:
@@ -11,16 +10,15 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    concurrency: deploy-fly-group
 
     steps:
-      - name: Checkout on branch ${{ github.ref_name }} 📥
+      - name: Checkout branch 📥
         uses: actions/checkout@v4
 
-      - name: Install Fly CLI 📦
+      - name: Install Fly CLI 🧱
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to Fly.io 🪁
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-        run: flyctl deploy ./ --yes
+        run: flyctl deploy ./ --ha=false --yes --now
