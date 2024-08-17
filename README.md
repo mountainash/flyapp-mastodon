@@ -12,7 +12,7 @@ You'll need a [Fly.io](https://fly.io/) account, and the [Flyctl CLI](https://fl
 
 ### App
 
-Fork this repo and clone a copy of it. Choose a name for your app that isn't already taken on https://fly.io/, and run the script `bin/name YOUR-APP-NAME`. Follow this readme from inside your repo, after you have run the script, so that all of the steps will be updated for the name of your Fly.io app.
+Fork this repo and clone a copy of it. Choose a name for your app that isn't already taken on <https://fly.io/>, and run the script `bin/name YOUR-APP-NAME`. Follow this readme from inside your repo, after you have run the script, so that all of the steps will be updated for the name of your Fly.io app.
 
 ```bash
 fly apps create mastodon-example
@@ -166,7 +166,7 @@ If your instance attracts many users (or maybe a few users who follow a huge num
 
 #### A bigger VM
 
-If you need more web processes, or more sidekiq workers, the easiest option is to choose a larger Fly VM size via `fly scale vm`. With a larger VM, you can run more Puma processes by setting `WEB_CONCURRENCY`, and you can run more sidekiq processes by setting `OVERMIND_FORMATION`. Try to aim for about as many Puma+Sidekiq processes as you have cores, and review the CPU usage of your VM to know whether to adjust up or down.
+If you need more web processes, or more Sidekiq workers, the easiest option is to choose a larger Fly VM size via `fly scale vm`. With a larger VM, you can run more Puma processes by setting `WEB_CONCURRENCY`, and you can run more Sidekiq processes by setting `OVERMIND_FORMATION`. Try to aim for about as many Puma+Sidekiq processes as you have cores, and review the CPU usage of your VM to know whether to adjust up or down.
 
 For example, if you upgrade to `dedicated-cpu-4x`, you might set `WEB_CONCURRENCY=2` and `OVERMIND_FORMATION=sidekiq=2` in [`fly.toml`](./fly.toml).
 
@@ -196,4 +196,4 @@ Ready? Okay, let's do it:
 
 Increase the number of `rails` or `sidekiq` processes by running `fly scale count rails=N` or `fly scale count sidekiq=N` as needed. Don't forget to also adjust the number of Puma and Sidekiq threads, as described in [A bigger VM](#a-bigger-vm) above, to match your CPU and memory settings!
 
-Finally, make sure that your Postgres is big enough to successfully handle one connection for every thread in Pumo or Sidekiq across all VMs. If your postgres is unable to accept more connections, you might need to increase the CPU or memory on your Postgres VM(s), or you might need to add pg_bouncer to act as a connection proxy and reduce the number of open connections directly to the database.
+Finally, make sure that your Postgres is big enough to successfully handle one connection for every thread in Pumo or Sidekiq across all VMs. If your Postgres is unable to accept more connections, you might need to increase the CPU or memory on your Postgres VM(s), or you might need to add pg_bouncer to act as a connection proxy and reduce the number of open connections directly to the database.
