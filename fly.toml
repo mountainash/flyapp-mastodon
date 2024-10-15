@@ -20,7 +20,7 @@ kill_timeout = "5s"
   REDIS_HOST = "mastodon-example-redis.internal"
   REDIS_PORT = "6379"
   REDIS_URL = "redis://mastodon-example-redis.internal:6379/?family=6"
-  ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and 
+  ## Storage on S3 also requires secrets named AWS_ACCESS_KEY_ID and
   ## AWS_SECRET_ACCESS_KEY. If you use this, remove [mounts] below.
   # S3_ENABLED=true
   # S3_BUCKET=mastodon-example-bucket
@@ -46,7 +46,7 @@ kill_timeout = "5s"
 # [processes]
 #   # If you need more web server workers, scale up this group
 #   # by running `fly scale count rails=N
-#   rails = "./overmind start -x sidekiq"
+#   rails = "./overmind start -x rails"
 #   # If you need to run more sidekiq workers, scale up this group
 #   # by running `fly scale count N --group sidekiq`
 #   sidekiq = "bash -c 'bundle exec sidekiq -c $MAX_THREADS -q default,8 -q push,6 -q ingress,4 -q mailers,2 -q pull'"
